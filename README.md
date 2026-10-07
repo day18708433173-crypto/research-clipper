@@ -18,7 +18,12 @@
 
 **浏览器兼容**：Chrome 88+ / Edge 88+（同一套代码，下文 `chrome://` 替换为 `edge://` 即可）
 
-<!-- 此处放演示 GIF / 截图：右键摘录 → 浮层选项目 → 面板 → 导出 Excel -->
+## 演示
+
+https://raw.githubusercontent.com/day18708433173-crypto/research-clipper/main/assets/demo.mp4
+
+> 30 秒看完全流程：网页选中 → 右键「加入数据底稿」→ 浮层选项目 → 面板勾选 → 导出 Excel（截图自动嵌入）。
+> 若视频未自动播放，[点此下载观看](assets/demo.mp4)。
 
 ## 安装
 

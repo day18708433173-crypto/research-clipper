@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "行研底稿助手",
+  "version": "0.1.0",
+  "description": "网页选中文字一键摘录：自动截图并高亮选中部分，记录来源与网址，批量导出 Excel 底稿。",
+  "permissions": ["contextMenus", "tabs", "activeTab", "storage", "scripting"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_title": "行研底稿助手 - 点击打开底稿面板"
+  }
+}

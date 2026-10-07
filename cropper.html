@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>区域截图摘录 - 行研底稿助手</title>
+  <link rel="stylesheet" href="cropper.css">
+</head>
+<body>
+  <header>
+    <h1>区域截图摘录</h1>
+    <span class="tip">在下方截图上按住鼠标拖动，框选要摘录的区域；可反复重框</span>
+  </header>
+
+  <div id="stage" class="stage">
+    <img id="shot" alt="页面截图">
+    <div id="rect" class="rect" hidden></div>
+  </div>
+
+  <div class="form">
+    <div class="row">
+      <label>摘录文字（可选）：</label>
+      <textarea id="text" placeholder="PDF 内容无法自动取文字，可手工摘抄关键句；留空也行"></textarea>
+    </div>
+    <div class="row inline">
+      <label>项目：</label>
+      <input id="project" list="projectList" placeholder="默认">
+      <datalist id="projectList"></datalist>
+      <label>备注：</label>
+      <input id="note" placeholder="可选">
+    </div>
+    <div class="row meta" id="metaInfo"></div>
+    <div class="row btns">
+      <span id="status" class="status"></span>
+      <button id="btnSave" class="primary" disabled>保存到库</button>
+      <button id="btnDashboard">打开底稿面板</button>
+      <button id="btnCancel">关闭</button>
+    </div>
+  </div>
+
+  <script src="cropper.js"></script>
+</body>
+</html>

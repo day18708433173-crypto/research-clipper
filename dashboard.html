@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>行研底稿助手 - 底稿面板</title>
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <header>
+    <h1>行研底稿助手</h1>
+    <div class="current-project">
+      <label for="currentProject">当前项目（新摘录归入）：</label>
+      <input id="currentProject" list="projectList" placeholder="默认">
+      <datalist id="projectList"></datalist>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-view="clips">摘录列表</button>
+    <button class="tab" data-view="kb">项目知识库</button>
+    <button class="tab" data-view="settings">设置</button>
+  </nav>
+
+  <!-- 视图一：摘录列表 -->
+  <section id="view-clips" class="view">
+    <div class="toolbar">
+      <label class="select-all"><input type="checkbox" id="selectAll"> 全选</label>
+      <button id="btnExport" class="primary">导出选中为 Excel</button>
+      <button id="btnAssign">批量改项目</button>
+      <button id="btnDelete" class="danger">删除选中</button>
+      <span class="spacer"></span>
+      <select id="filterProject"><option value="">全部项目</option></select>
+      <input id="search" type="search" placeholder="搜索 摘录/来源/网址…">
+    </div>
+    <div id="stats" class="stats"></div>
+    <div id="list" class="list"></div>
+    <div id="empty" class="empty" hidden>
+      还没有摘录。到任意网页选中文字 → 右键 →「加入数据底稿」。
+    </div>
+  </section>
+
+  <!-- 视图二：项目知识库 -->
+  <section id="view-kb" class="view" hidden>
+    <div class="kb-layout">
+      <aside class="kb-side">
+        <div class="kb-side-title">项目</div>
+        <ul id="kbProjectList"></ul>
+      </aside>
+      <div class="kb-main">
+        <div class="kb-row">
+          <button id="btnKbMd" class="primary">导出知识库 Markdown</button>
+          <button id="btnKbJson">导出 JSON</button>
+          <span id="kbClipCount" class="kb-count"></span>
+        </div>
+        <label class="kb-outline-label" for="kbOutline">
+          作者核心观点与报告大纲（喂给 AI 时的"意图层"，对生成质量影响最大）：
+        </label>
+        <textarea id="kbOutline" placeholder="例：本报告核心观点：工程机械电动化渗透率在2026年将迎来拐点……章节安排：1.行业现状 2.电动化趋势 3.重点标的……"></textarea>
+        <div class="kb-hint">大纲随输入自动保存。导出的知识库 = 大纲 + 该项目全部摘录（正文 / 批注 / 来源 / 网址），截图证据保留在摘录列表中。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 视图三：设置 -->
+  <section id="view-settings" class="view" hidden>
+    <div class="settings-card">
+      <h2>数据备份与恢复</h2>
+      <div class="data-notice">
+        <b>你的数据存在哪里：</b>全部数据（摘录、截图、大纲、来源记忆）只保存在<b>本机当前浏览器的扩展存储</b>中，不会上传到任何服务器，也不会随账号同步到其他设备。<br>
+        <b>以下操作会导致数据永久丢失，请避免；如有需要请先备份：</b>
+        <ul>
+          <li>在 <code>chrome://extensions</code> 中<b>移除/卸载本扩展</b>（扩展数据随卸载一并删除）；</li>
+          <li>浏览器「清除浏览数据」时勾选<b>Cookie 及其他网站数据 / 站点数据</b>并执行清理；</li>
+          <li>使用第三方"系统清理/磁盘瘦身"软件清理浏览器缓存目录；</li>
+          <li>删除或更换浏览器用户档案（Profile）、重装浏览器或操作系统；</li>
+          <li>在另一台电脑或另一个浏览器中查找数据——数据不跨设备，请用下方备份文件迁移。</li>
+        </ul>
+      </div>
+      <div class="sm-tip">备份文件包含全部摘录（含截图）、来源记忆、项目大纲。恢复支持两种方式：<b>合并</b>——保留现有数据，跳过重复条目；<b>清空重建</b>——删除现有全部数据后回到备份时点。</div>
+      <div class="backup-btns">
+        <button id="btnBackup" class="primary">备份全部数据</button>
+        <button id="btnRestoreMerge">恢复（合并）</button>
+        <button id="btnRestoreReplace" class="danger">恢复（清空重建）</button>
+      </div>
+      <div id="backupStatus" class="backup-status"></div>
+      <input type="file" id="restoreFile" accept=".json,application/json" hidden>
+      <div class="danger-zone">
+        <button id="btnWipe" class="danger">清空全部摘录数据</button>
+        <span class="danger-tip">删除所有摘录（含截图），不影响项目大纲和来源记忆。建议先备份。</span>
+      </div>
+    </div>
+
+    <div class="settings-card">
+      <h2>来源记忆管理</h2>
+      <div class="sm-tip">以下是你手动修正来源时记住的「域名 → 来源名」映射，新摘录会优先套用。删除某条后，该域名恢复自动识别。</div>
+      <table class="sm-table">
+        <thead><tr><th>域名</th><th>来源名</th><th></th></tr></thead>
+        <tbody id="smBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <div id="lightbox" class="lightbox" hidden>
+    <img id="lightboxImg" alt="截图原图">
+  </div>
+
+  <script src="lib/exceljs.min.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+</html>

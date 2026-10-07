@@ -20,10 +20,13 @@
 
 ## 演示
 
-https://raw.githubusercontent.com/day18708433173-crypto/research-clipper/main/assets/demo.mp4
+**底稿面板**：摘录自动按项目归集，截图、来源、网址、时间一目了然，勾选即可导出
 
-> 30 秒看完全流程：网页选中 → 右键「加入数据底稿」→ 浮层选项目 → 面板勾选 → 导出 Excel（截图自动嵌入）。
-> 若视频未自动播放，[点此下载观看](assets/demo.mp4)。
+![底稿面板](assets/dashboard.png)
+
+**导出效果**：一键生成排版好的 Excel 底稿——截图嵌入、来源就位、网址可点击溯源
+
+![导出的 Excel 底稿](assets/export-excel.png)
 
 ## 安装
 
